@@ -1,0 +1,127 @@
+﻿@model CvManager.Models.Applicant
+
+@{
+    ViewData["Title"] = "Nowy aplikant";
+}
+
+
+
+
+<div class="col-11 mx-auto pt-0 p0">
+    <div class="card">
+        <div class="card-header bg-info text-uppercase text-white" style="height:45px">
+            <h4>Nowy aplikant</h4>
+        </div>
+        <form id="ApplicantForm" enctype="multipart/form-data" style="padding-inline:1rem; margin-top:.5rem" asp-action="Create">
+            <div class="row">
+                <div class="col-md-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Imię i Nazwisko</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label">Płeć</label>
+                        <select asp-for="Gender" class="form-control" asp-items="ViewBag.Gender" ></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Age" class="control-label">Wiek</label>
+                        <input asp-for="Age" class="form-control" />
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Qualification" class="control-label">Zawód</label>
+                        <input asp-for="Qualification" class="form-control" />
+                        <span asp-validation-for="Qualification" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TotalExperience" class="control-label">Doświadczenie</label>
+                        <input asp-for="TotalExperience" id="TotalExperience" class="form-control-plaintext" readonly/>
+                    </div>
+                </div>
+
+                <div class="col-md-6 btn-group position-relative">
+                    <div class="form-group col-6 p-0">
+
+                        <input asp-for="ProfilePhoto" class="custom-file-input" id="customFile"
+                               
+                               onchange="document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0])" />
+                        <label for="customFile" class="custom-file-label">Wybierz Plik</label>
+                        <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-6" >
+                        <img src="~/images/noimage.jpg" id="PreviewPhoto" alt="profile pic" width="125" height="125" style="margin-top:20px" />
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-12 p-0 m-0 bg-light">
+                    <table class="table table-sm expTable" id="ExpTable">
+                        <thead>
+                            <tr>
+                                <th>Nazwa firmy</th>
+                                <th>Stanowisko</th>
+                                <th>Przepracowanych lat</th>
+                                <th>
+                                    <button id="btnAddExp" onclick="AddItem(this)" type="button" class="btn btn-sm btn-secondary visible">Dodaj</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Experiences.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.Experiences[i].CompanyName" class="form-control"/>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Experiences[i].Designation" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="hidden" asp-for="@Model.Experiences[i].IsDeleted" />
+                                        <input asp-for="@Model.Experiences[i].YearsWorked" class="form-control yearsWorked" />
+                                        <span asp-validation-for="@Model.Experiences[i].YearsWorked" class="text-danger"></span>
+                                    </td>
+                                    <td>
+
+                                        <button id="btnRemove-@i" onclick="DeleteItem(this)" type="button" class=" btn btn-sm btn-danger visible">Usuń</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 btn-group">
+                    <div class="form-group col-6 text-right p-2">
+                        <a asp-action="Index" class="btn btn-secondary">Wróć</a>
+                    </div>
+                    <div class="col-6 form-group text-left p-2">
+                        <input type="submit" value="Stwórz" class="btn btn-primary" />
+                    </div>
+                   </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+  
+}

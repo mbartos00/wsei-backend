@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+
+
+<ul class="navbar-nav" style="justify-content:center; align-items:center;" >
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">@User.Identity.Name</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+                <button type="submit" class="nav-link btn btn-link">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="justify-content-center align-items-center" style="background-color:#dbdbdb; display:flex; width:20%; height:25rem;border-radius:20px; "  id="loginContainer">
+            <ul style="list-style:none; ">
+                <li class="nav-item" style="width:100%; background-color:white; border-radius:10px; padding:.5rem 4rem; text-align:center; margin-bottom:2rem;">
+                    <a class="nav-link" style="text-decoration:none; color:black;" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+                <li class="nav-item" style="width:100%; background-color:white; border-radius:10px; padding:.5rem 4rem; text-align:center;">
+                    <a class="nav-link" style="text-decoration:none; color:black;" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+            </ul>
+        </li>
+    }
+</ul>

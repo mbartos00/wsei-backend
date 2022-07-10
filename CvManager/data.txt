@@ -1,0 +1,136 @@
+CREATE TABLE [dbo].[__EFMigrationsHistory] (
+    [MigrationId]    NVARCHAR (150) NOT NULL,
+    [ProductVersion] NVARCHAR (32)  NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED ([MigrationId] ASC)
+);
+
+CREATE TABLE [dbo].[Applicants] (
+    [Id]              INT            IDENTITY (1, 1) NOT NULL,
+    [Name]            NVARCHAR (150) NOT NULL,
+    [Gender]          NVARCHAR (10)  NOT NULL,
+    [Age]             INT            NOT NULL,
+    [Qualification]   NVARCHAR (50)  NOT NULL,
+    [TotalExperience] INT            NOT NULL,
+    [PhotoUrl]        NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Applicants] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[Experiences] (
+    [ExperienceId] INT            IDENTITY (1, 1) NOT NULL,
+    [ApplicantId]  INT            NOT NULL,
+    [CompanyName]  NVARCHAR (MAX) NULL,
+    [Designation]  NVARCHAR (MAX) NULL,
+    [YearsWorked]  INT            NOT NULL,
+    CONSTRAINT [PK_Experiences] PRIMARY KEY CLUSTERED ([ExperienceId] ASC),
+    CONSTRAINT [FK_Experiences_Applicants_ApplicantId] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicants] ([Id]) ON DELETE CASCADE
+);
+CREATE NONCLUSTERED INDEX [IX_Experiences_ApplicantId]
+    ON [dbo].[Experiences]([ApplicantId] ASC);
+
+
+CREATE TABLE [dbo].[AspNetRoles] (
+    [Id]               NVARCHAR (450) NOT NULL,
+    [Name]             NVARCHAR (256) NULL,
+    [NormalizedName]   NVARCHAR (256) NULL,
+    [ConcurrencyStamp] NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex]
+    ON [dbo].[AspNetRoles]([NormalizedName] ASC) WHERE ([NormalizedName] IS NOT NULL);
+
+
+
+CREATE TABLE [dbo].[AspNetRoleClaims] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [RoleId]     NVARCHAR (450) NOT NULL,
+    [ClaimType]  NVARCHAR (MAX) NULL,
+    [ClaimValue] NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE
+);
+
+CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId]
+    ON [dbo].[AspNetRoleClaims]([RoleId] ASC);
+
+
+
+CREATE TABLE [dbo].[AspNetUsers] (
+    [Id]                   NVARCHAR (450)     NOT NULL,
+    [UserName]             NVARCHAR (256)     NULL,
+    [NormalizedUserName]   NVARCHAR (256)     NULL,
+    [Email]                NVARCHAR (256)     NULL,
+    [NormalizedEmail]      NVARCHAR (256)     NULL,
+    [EmailConfirmed]       BIT                NOT NULL,
+    [PasswordHash]         NVARCHAR (MAX)     NULL,
+    [SecurityStamp]        NVARCHAR (MAX)     NULL,
+    [ConcurrencyStamp]     NVARCHAR (MAX)     NULL,
+    [PhoneNumber]          NVARCHAR (MAX)     NULL,
+    [PhoneNumberConfirmed] BIT                NOT NULL,
+    [TwoFactorEnabled]     BIT                NOT NULL,
+    [LockoutEnd]           DATETIMEOFFSET (7) NULL,
+    [LockoutEnabled]       BIT                NOT NULL,
+    [AccessFailedCount]    INT                NOT NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE NONCLUSTERED INDEX [EmailIndex]
+    ON [dbo].[AspNetUsers]([NormalizedEmail] ASC);
+
+CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex]
+    ON [dbo].[AspNetUsers]([NormalizedUserName] ASC) WHERE ([NormalizedUserName] IS NOT NULL);
+
+
+
+CREATE TABLE [dbo].[AspNetUserClaims] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [UserId]     NVARCHAR (450) NOT NULL,
+    [ClaimType]  NVARCHAR (MAX) NULL,
+    [ClaimValue] NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId]
+    ON [dbo].[AspNetUserClaims]([UserId] ASC);
+
+
+CREATE TABLE [dbo].[AspNetUserLogins] (
+    [LoginProvider]       NVARCHAR (128) NOT NULL,
+    [ProviderKey]         NVARCHAR (128) NOT NULL,
+    [ProviderDisplayName] NVARCHAR (MAX) NULL,
+    [UserId]              NVARCHAR (450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY CLUSTERED ([LoginProvider] ASC, [ProviderKey] ASC),
+    CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+
+CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId]
+    ON [dbo].[AspNetUserLogins]([UserId] ASC);
+
+
+
+CREATE TABLE [dbo].[AspNetUserRoles] (
+    [UserId] NVARCHAR (450) NOT NULL,
+    [RoleId] NVARCHAR (450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY CLUSTERED ([UserId] ASC, [RoleId] ASC),
+    CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+
+CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId]
+    ON [dbo].[AspNetUserRoles]([RoleId] ASC);
+
+
+CREATE TABLE [dbo].[AspNetUserTokens] (
+    [UserId]        NVARCHAR (450) NOT NULL,
+    [LoginProvider] NVARCHAR (128) NOT NULL,
+    [Name]          NVARCHAR (128) NOT NULL,
+    [Value]         NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY CLUSTERED ([UserId] ASC, [LoginProvider] ASC, [Name] ASC),
+    CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<CvManager.Models.Applicant>
+
+    @{
+    ViewData["Title"] = "Lista aplikantów";
+    }
+
+    <h1>Lista aplikantów</h1>
+
+    <p style=" margin-block: 2rem;">
+        <a style="background-color:#dbdbdb; padding:.8rem; border-radius:10px;color:black; text-decoration:none" asp-action="Create">Dodaj Aplikanta</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+               <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Age)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qualification)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalExperience)
+                </th>
+               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    <img src="~/images/@item.PhotoUrl" style="width:45px; height:45px; border-radius:100vh" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qualification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalExperience)
+                </td>
+              
+                <td>
+                    <a asp-action="Edit" class="btn btn-dark" asp-route-id="@item.Id">Edytuj</a> 
+                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Szczegóły</a> 
+                    <a asp-action="Delete" class=" btn btn-danger" asp-route-id="@item.Id">Usuń</a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+
+

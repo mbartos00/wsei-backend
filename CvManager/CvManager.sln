@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CvManager", "CvManager\CvManager.csproj", "{FE17E3BB-4ABF-46FD-846A-8C19D3C500CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE17E3BB-4ABF-46FD-846A-8C19D3C500CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE17E3BB-4ABF-46FD-846A-8C19D3C500CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE17E3BB-4ABF-46FD-846A-8C19D3C500CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE17E3BB-4ABF-46FD-846A-8C19D3C500CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBD0D594-492D-491F-82B0-1EFD6ADCEDF8}
+	EndGlobalSection
+EndGlobal

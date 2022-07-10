@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CvManager</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+   
+</head>
+<body>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <h2 class="mr-5">CvManager</h2>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
+                            </li>
+                            
+
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <partial name="_LoginPartial" />
+                </div>
+
+
+
+            </nav>
+
+        </header>
+
+
+        <div class="jsStyle" style="height:90vh; padding:3rem; display:flex; justify-content:center; align-items:center">
+            <main role="main" style="width: 100%; display:flex; justify-content:center;align-items:center;">
+                @RenderBody()
+            </main>
+        </div>
+
+    }
+    else
+    {
+
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+                <div class="ml-5">
+                    <h2 class="mr-5">CvManager</h2>
+                    
+                </div>
+            </nav>
+        </header>
+
+
+        <div style="height:90vh; padding:3rem; display:flex; justify-content:center; align-items:center">
+            <main role="main" style="width: 100%;" >
+                <div >
+                    <partial name="_LoginPartial" />
+                </div>
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
